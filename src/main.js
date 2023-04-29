@@ -1,3 +1,8 @@
+// This is the main function that is used to run the whole program.
+// The main function takes a file path as input and returns an array of deprecated API usages.
+// The main function uses the makeAst module to create the AST from the file path.
+// The main function uses the checkDeprecation module to check if there are any deprecated API usages in the AST.
+
 let makeAst = require('./makeAst.js');
 let checkDeprecation = require('./checkDeprecation.js');
 let fetchAPIs = require('./fetchApi.js');

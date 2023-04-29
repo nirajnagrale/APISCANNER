@@ -4,12 +4,11 @@ const _traverse = require('@babel/traverse');
 
 const traverse = _traverse.default;
 
-// 
 
-//load deprecated APIs from api.json file 
 
-//console.log(deprecatedAPIs.modules[0]);
-
+// This code checks if the API is deprecated.
+// If it is deprecated, it returns the deprecated API object.
+// If it is not deprecated, it returns an empty object.
 function checkIfDeprecatedApi(api,deprecatedAPIs) {
     for (let i = 0; i < deprecatedAPIs.length; i++) {
         if (api === deprecatedAPIs[i].api) {
@@ -57,13 +56,7 @@ function checkDeprecation(ast,deprecatedAPIs) {
             if (Object.keys(module).length > 0) {
                 deprecatedAPIUsages.push({ "module": module, "api": api, "start": path.node.loc.start, "end": path.node.loc.end })
             }
-            // if (deprecatedAPIs.includes(api)) {
-            //     const start = path.node.start;
-            //     const end = path.node.end;
-            //     deprecatedAPIUsages.push({ api: api, start: path.node.loc.start, end: path.node.loc.end });
-
-
-            // }
+           
         },
         Identifier(path) {
             const { node, parent } = path;
@@ -73,23 +66,14 @@ function checkDeprecation(ast,deprecatedAPIs) {
             if (Object.keys(module).length > 0) {
                 deprecatedAPIUsages.push({ "module": module, "api": api, "start": path.node.loc.start, "end": path.node.loc.end })
             }
-            // if (deprecatedAPIs.includes(name)) {
-            //     const start = path.node.start;
-            //     const end = path.node.end;
-            //     deprecatedAPIUsages.push({ api: api, start: path.node.loc.start, end: path.node.loc.end });
-
-            // }
+           
         }, CallExpression(path) {
             let api = traverseCallExpression(path.node)
             let module = checkIfDeprecatedApi(api,deprecatedAPIs);
             if (Object.keys(module).length > 0) {
                 deprecatedAPIUsages.push({ "module": module, "api": api, "start": path.node.loc.start, "end": path.node.loc.end})
             }
-            // if (deprecatedAPIs.includes(api)) {
-            //     const start = path.node.start;
-            //     const end = path.node.end;
-            //         deprecatedAPIUsages.push({ api: api, start: path.node.loc.start, end: path.node.loc.end });
-            // } 
+           
             else {
                 //remove () from api and check
                 // Use a regular expression to find all instances of parentheses and their contents
@@ -102,26 +86,11 @@ function checkDeprecation(ast,deprecatedAPIs) {
                     deprecatedAPIUsages.push({ "module": module, "api": api, "start": path.node.loc.start, "end": path.node.loc.end })
                 }
 
-                // if (deprecatedAPIs.includes(api)) {
-                //     const start = path.node.start;
-                //     const end = path.node.end;
-                //     deprecatedAPIUsages.push({ api: api, start: path.node.loc.start, end: path.node.loc.end });
-
-                // }
             }
         }
     })
     return deprecatedAPIUsages;
 }
 
-
-
-// traverse(ast, {
-//     enter: function (path, parent) {
-//         let node = path.node;
-//         console.log(node);
-//     }
-// })
-// console.log(deprecatedAPIUsages)
 
 module.exports =  { checkDeprecation}

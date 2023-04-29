@@ -1,5 +1,8 @@
 let vscode = require('vscode');
 let main = require('./src/main.js');
+
+
+// This code uses the Turndown service to convert HTML to Markdown.
 let TurndownService = require('turndown');
 
 let turndownService = new TurndownService();
@@ -19,10 +22,14 @@ let decorationTypes = {
     })
 };
 
+//This function gets all the deprecated API usages in the active editor
 async function getDeprecatedApiUsages() {
+    //Get the path for the active document
     let filePath = vscode.window.activeTextEditor.document.fileName;
+    //Get all the deprecated API usages
     let deprecatedApiUsages = [];
     deprecatedApiUsages = await main.main(filePath);
+    //Return the deprecated API usages
     return deprecatedApiUsages;
 }
 
@@ -54,8 +61,11 @@ function displayDecoration(deprecatedApiUsages) {
         decorationLists[apiType].push(decoration);
     });
 
+    // Loop through each API type
     for (let apiType in decorationLists) {
+        // Get the decoration type for the current API type
         let decorationType = decorationTypes[apiType] || decorationTypes.default;
+        // Set the decorations for the current API type
         vscode.window.activeTextEditor.setDecorations(decorationType, decorationLists[apiType]);
     }
 }
@@ -73,7 +83,7 @@ function activate(context) {
         let deprecatedApiUsages = [];
         deprecatedApiUsages = await getDeprecatedApiUsages();
         displayDecoration(deprecatedApiUsages);
-    }, 15000);
+    }, 1500);
 
     context.subscriptions.push({
         dispose: () => {
@@ -82,7 +92,7 @@ function activate(context) {
     });
 }
 
-function deactivate() {}
+function deactivate() { }
 
 module.exports = {
     activate,

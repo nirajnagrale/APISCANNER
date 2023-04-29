@@ -1,9 +1,11 @@
+// This code is used to make an ast for a given file
+
 const fs = require('fs')
 const parser = require('@babel/parser');
 const _traverse = require('@babel/traverse');
 
 const traverse = _traverse.default;
-//const traverse = _traverse.default;
+
 let varValue = new Map();
 
 function changeToOrignalVar(node) {
