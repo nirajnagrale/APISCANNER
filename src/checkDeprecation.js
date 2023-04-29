@@ -1,3 +1,15 @@
+/**
+ * The above code exports a function that checks for deprecated API usage in a JavaScript abstract
+ * syntax tree (AST) using Babel parser and traverse.
+ * @param api - The name of an API being checked for deprecation.
+ * @param deprecatedAPIs - An array of objects representing deprecated APIs. Each object should have
+ * properties: "api" (string) representing the name of the deprecated API, and "module" (string)
+ * representing the name of the module where the API is deprecated.
+ * @returns The module exports an object with a single function called `checkDeprecation`. This
+ * function takes two arguments: `ast` and `deprecatedAPIs`. It traverses the `ast` using
+ * `@babel/traverse` and checks if any of the APIs used in the code are deprecated by comparing them
+ * with the `deprecatedAPIs` array. If a deprecated API is found, the function adds
+ */
 const fs = require('fs');
 const parser = require('@babel/parser');
 const _traverse = require('@babel/traverse');
@@ -39,7 +51,12 @@ function traverseCallExpression(node) {
     expr += "(";
     if (node.arguments.length > 0) {
         for (let i = 0; i < node.arguments.length; i++) {
-            expr += node.arguments[i].value + ",";
+            if(node.arguments[i].type === "StringLiteral")
+            expr += "\'" + node.arguments[i].value + "\'" + ",";
+            else{
+                expr += node.arguments[i].value + ",";
+            }
+          
         }
         expr = expr.substring(0, expr.length - 1);
     }
