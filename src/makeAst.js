@@ -1,3 +1,14 @@
+/**
+ * The function makes an AST (Abstract Syntax Tree) for a given file using Babel parser and traverse,
+ * and also includes functionality to change variable names to their original values.
+ * @param node - This refers to the current node being traversed in the AST (Abstract Syntax Tree) by
+ * the Babel parser. The AST is a tree-like data structure that represents the structure of the code in
+ * an abstract way, making it easier to analyze and manipulate programmatically.
+ * @returns The module exports an object with two properties: `makeAst` and `varValue`. The `makeAst`
+ * function takes a file path as an argument, reads the file, parses it using Babel parser, and returns
+ * an abstract syntax tree (AST) for the file. The `varValue` property is a Map object that stores the
+ * values of variables in the code.
+ */
 // This code is used to make an ast for a given file
 
 const fs = require('fs')
@@ -62,6 +73,5 @@ function makeAst(filePath) {
 
 
 module.exports = {
-    makeAst,
-    varValue
+    makeAst
 }
