@@ -1,7 +1,10 @@
-const vscode = require('vscode');
-const main = require('./src/main.js');
+let vscode = require('vscode');
+let main = require('./src/main.js');
+let TurndownService = require('turndown');
 
-const decorationTypes = {
+let turndownService = new TurndownService();
+
+let decorationTypes = {
     'Runtime deprecation': vscode.window.createTextEditorDecorationType({
         backgroundColor: 'yellow',
         color: 'white'
@@ -17,46 +20,58 @@ const decorationTypes = {
 };
 
 async function getDeprecatedApiUsages() {
-    const filePath = vscode.window.activeTextEditor.document.fileName;
-    const deprecatedApiUsages = await main.main(filePath);
+    let filePath = vscode.window.activeTextEditor.document.fileName;
+    let deprecatedApiUsages = [];
+    deprecatedApiUsages = await main.main(filePath);
     return deprecatedApiUsages;
 }
 
 function displayDecoration(deprecatedApiUsages) {
-    const decorationLists = {
+
+    let decorationLists = {
         'Runtime deprecation': [],
         'Documentation-only': [],
         default: []
     };
 
     deprecatedApiUsages.forEach(apiUsage => {
-        const start = new vscode.Position(apiUsage.start.line - 1, apiUsage.start.column);
-        const end = new vscode.Position(apiUsage.end.line - 1, apiUsage.end.column);
-        const range = new vscode.Range(start, end);
-        const hoverMessage = new vscode.MarkdownString(apiUsage.module.desc, true);
-        const decoration = { range, hoverMessage };
+        let start = new vscode.Position(apiUsage.start.line - 1, apiUsage.start.column);
+        let end = new vscode.Position(apiUsage.end.line - 1, apiUsage.end.column);
+        let range = new vscode.Range(start, end);
 
-        const apiType = apiUsage.module.apiType || 'default';
+        let htmlDesc = apiUsage.module.desc;
+        let markdownDesc = turndownService.turndown(htmlDesc);
+        let hoverMessage = new vscode.MarkdownString(markdownDesc, true);
+        let decoration = { range, hoverMessage };
+
+        let apiType = apiUsage.module.apiType || 'default';
+
+        if (!decorationLists[apiType]) {
+            console.warn(`Unexpected apiType "${apiType}" encountered. Using default decoration list.`);
+            decorationLists[apiType] = [];
+        }
 
         decorationLists[apiType].push(decoration);
     });
 
-    for (const apiType in decorationLists) {
-        const decorationType = decorationTypes[apiType] || decorationTypes.default;
+    for (let apiType in decorationLists) {
+        let decorationType = decorationTypes[apiType] || decorationTypes.default;
         vscode.window.activeTextEditor.setDecorations(decorationType, decorationLists[apiType]);
     }
 }
 
 function activate(context) {
-    const disposable = vscode.commands.registerCommand('nodedeprecatedapi.helloWorld', async () => {
-        const deprecatedApiUsages = await getDeprecatedApiUsages();
+    let disposable = vscode.commands.registerCommand('nodedeprecatedapi.helloWorld', async () => {
+        let deprecatedApiUsages = [];
+        deprecatedApiUsages = await getDeprecatedApiUsages();
         displayDecoration(deprecatedApiUsages);
     });
 
     context.subscriptions.push(disposable);
 
-    const intervalId = setInterval(async () => {
-        const deprecatedApiUsages = await getDeprecatedApiUsages();
+    let intervalId = setInterval(async () => {
+        let deprecatedApiUsages = [];
+        deprecatedApiUsages = await getDeprecatedApiUsages();
         displayDecoration(deprecatedApiUsages);
     }, 15000);
 

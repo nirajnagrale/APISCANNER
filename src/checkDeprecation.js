@@ -10,8 +10,6 @@ const traverse = _traverse.default;
 
 //console.log(deprecatedAPIs.modules[0]);
 
-let deprecatedAPIUsages = [];
-
 function checkIfDeprecatedApi(api,deprecatedAPIs) {
     for (let i = 0; i < deprecatedAPIs.length; i++) {
         if (api === deprecatedAPIs[i].api) {
@@ -51,6 +49,7 @@ function traverseCallExpression(node) {
 }
 
 function checkDeprecation(ast,deprecatedAPIs) {
+    deprecatedAPIUsages = [];
     traverse(ast, {
         MemberExpression(path) {
             let api = traverseMemberExpression(path.node)

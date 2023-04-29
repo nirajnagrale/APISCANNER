@@ -24,7 +24,8 @@ async function main(filePath) {
         }
     });
     let ast = makeAst.makeAst(filePath);
-    let deprecatedAPIUsages = checkDeprecation.checkDeprecation(ast, deprecatedAPIs);
+    let deprecatedAPIUsages = [];
+    deprecatedAPIUsages = checkDeprecation.checkDeprecation(ast, deprecatedAPIs);
     return deprecatedAPIUsages;
 }
 
