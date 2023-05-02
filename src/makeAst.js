@@ -47,9 +47,9 @@ function changeToOrignalVar(node) {
 }
 let ast;
 
-function makeAst(filePath) {
+function makeAst(fileContent) {
    
-    const code = fs.readFileSync(filePath, 'utf-8');
+    const code = fileContent;
 
     ast = parser.parse(code);
     traverse(ast, {
