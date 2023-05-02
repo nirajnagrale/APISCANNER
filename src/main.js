@@ -8,7 +8,7 @@ let checkDeprecation = require('./checkDeprecation.js');
 let fetchAPIs = require('./fetchApi.js');
 const { default: traverse } = require('@babel/traverse');
 
-async function main(filePath) {
+async function main(fileContent) {
    
     const json = await fetchAPIs.fetchJSON('https://nodejs.org/api/deprecations.json');
     let deprecatedAPIs = json.miscs[0].miscs[1].modules;
@@ -28,7 +28,7 @@ async function main(filePath) {
             module.apiType = "Runtime deprecation";
         }
     });
-    let ast = makeAst.makeAst(filePath);
+    let ast = makeAst.makeAst(fileContent);
     let deprecatedAPIUsages = [];
     deprecatedAPIUsages = checkDeprecation.checkDeprecation(ast, deprecatedAPIs);
     return deprecatedAPIUsages;
