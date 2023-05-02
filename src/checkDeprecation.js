@@ -97,10 +97,17 @@ function checkDeprecation(ast,deprecatedAPIs) {
                 let regex = /\([^)]*\)/g;
 
                 // Replace all instances of the regex with an empty string
-                api = api.replace(regex, '');
-                let module = checkIfDeprecatedApi(api,deprecatedAPIs);
+                apiWithArg = api.replace(regex, '()');
+                let module = checkIfDeprecatedApi(apiWithArg,deprecatedAPIs);
                 if (Object.keys(module).length > 0) {
-                    deprecatedAPIUsages.push({ "module": module, "api": api, "start": path.node.loc.start, "end": path.node.loc.end })
+                    deprecatedAPIUsages.push({ "module": module, "api": apiWithArg, "start": path.node.loc.start, "end": path.node.loc.end })
+                }
+                
+                //remove arguments from api and check
+                let apiWithoutArg = api.replace(regex, '');
+                module = checkIfDeprecatedApi(apiWithoutArg,deprecatedAPIs);
+                if (Object.keys(module).length > 0) {
+                    deprecatedAPIUsages.push({ "module": module, "api": apiWithoutArg, "start": path.node.loc.start, "end": path.node.loc.end })
                 }
 
             }
