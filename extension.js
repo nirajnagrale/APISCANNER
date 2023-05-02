@@ -9,26 +9,27 @@ let turndownService = new TurndownService();
 
 let decorationTypes = {
     'Runtime deprecation': vscode.window.createTextEditorDecorationType({
-        backgroundColor: 'yellow',
-        color: 'white'
+        backgroundColor: 'rgba(255, 255, 0, 0.5)', // Yellow with 50% opacity
+        color: 'black'
     }),
     'Documentation-only': vscode.window.createTextEditorDecorationType({
-        backgroundColor: 'green',
-        color: 'white'
+        backgroundColor: 'rgba(0, 255, 0, 0.5)', // Green with 50% opacity
+        color: 'black'
     }),
     default: vscode.window.createTextEditorDecorationType({
-        backgroundColor: 'red',
-        color: 'white'
+        backgroundColor: 'rgba(255, 0, 0, 0.5)', // Red with 50% opacity
+        color: 'black'
     })
 };
+
 
 //This function gets all the deprecated API usages in the active editor
 async function getDeprecatedApiUsages() {
     //Get the path for the active document
-    let filePath = vscode.window.activeTextEditor.document.fileName;
+    let fileContent = vscode.window.activeTextEditor.document.getText();
     //Get all the deprecated API usages
     let deprecatedApiUsages = [];
-    deprecatedApiUsages = await main.main(filePath);
+    deprecatedApiUsages = await main.main(fileContent);
     //Return the deprecated API usages
     return deprecatedApiUsages;
 }
@@ -83,7 +84,7 @@ function activate(context) {
         let deprecatedApiUsages = [];
         deprecatedApiUsages = await getDeprecatedApiUsages();
         displayDecoration(deprecatedApiUsages);
-    }, 150);
+    }, 1000);
 
     context.subscriptions.push({
         dispose: () => {
