@@ -15,7 +15,7 @@
     "commands": [
       {
         "command": "nodedeprecatedapi.checkDeprecation",
-        "title": "check Deprecated Apis"
+        "title": "check Deprecated APIS"
       }
     ]
   },
