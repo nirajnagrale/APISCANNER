@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "nodedeprecatedapi.helloWorld",
-        "title": "Hello World"
+        "command": "nodedeprecatedapi.checkDeprecation",
+        "title": "check Deprecated Apis"
       }
     ]
   },

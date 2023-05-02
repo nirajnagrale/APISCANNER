@@ -71,7 +71,7 @@ function displayDecoration(deprecatedApiUsages) {
 }
 
 function activate(context) {
-    let disposable = vscode.commands.registerCommand('nodedeprecatedapi.helloWorld', async () => {
+    let disposable = vscode.commands.registerCommand('nodedeprecatedapi.checkDeprecation', async () => {
         let deprecatedApiUsages = [];
         deprecatedApiUsages = await getDeprecatedApiUsages();
         displayDecoration(deprecatedApiUsages);
@@ -83,7 +83,7 @@ function activate(context) {
         let deprecatedApiUsages = [];
         deprecatedApiUsages = await getDeprecatedApiUsages();
         displayDecoration(deprecatedApiUsages);
-    }, 1500);
+    }, 150);
 
     context.subscriptions.push({
         dispose: () => {
