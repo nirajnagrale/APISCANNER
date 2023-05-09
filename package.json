@@ -1,8 +1,13 @@
 {
-  "name": "nodedeprecatedapi",
-  "displayName": "nodeDeprecatedApi",
+  "name": "nodeapiscanner",
+  "publisher": "nirajnagrale",
+  "displayName": "nodeAPIScanner",
   "description": "detects deprecated api in node",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nirajnagrale/NodeAPIScanner"
+  },
   "engines": {
     "vscode": "^1.77.0"
   },
