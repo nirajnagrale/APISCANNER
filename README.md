@@ -35,6 +35,9 @@ Show the alternative API on hover
 <img width="354" alt="program cycle" src="https://github.com/nirajnagrale/NodeAPIScanner/assets/41152282/831a6778-2ae9-40ca-804a-b9614ebfc316">
 
 <br>
+<br>
+<br>
+<br>
 
 USING NODEAPISCANNER: <br>
 Making Use of NodeAPIScanner: <br>
