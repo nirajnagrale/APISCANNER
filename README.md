@@ -34,7 +34,11 @@ Show the alternative API on hover
 
 <img width="354" alt="program cycle" src="https://github.com/nirajnagrale/NodeAPIScanner/assets/41152282/831a6778-2ae9-40ca-804a-b9614ebfc316">
 
-USING NODEAPISCANNER Making Use of NodeAPIScanner: 
+<br>
+
+USING NODEAPISCANNER: <br>
+Making Use of NodeAPIScanner: <br>
+
 (1) Download the extension nodeAPIScanner from the Visual Studio Code Marketplace and install it.<br>
 (2) Open a Node.js project in Visual Studio Code. <br>
 (3) Launch the command palette and begin the command checkDeprecatedAPI The plugin will analyse the code automatically and provide real-time feedback on deprecated API usage. <br>
