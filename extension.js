@@ -69,7 +69,7 @@ function displayDecoration(deprecatedApiUsages) {
         let apiType = apiUsage.module.apiType || 'default';
 
         if (!decorationLists[apiType]) {
-            console.warn(`Unexpected apiType "${apiType}" encountered. Using default decoration list.`);
+            //console.warn(`Unexpected apiType "${apiType}" encountered. Using default decoration list.`);
             decorationLists[apiType] = [];
         }
 
