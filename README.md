@@ -1,31 +1,37 @@
-## Node Deprecated API SCANNER
-NodeAPIScanner is a VS Code extension that allows you to scan and list all the deprecated APIs exposed by your Node.js application.
+# NodeAPIScanner
+The deprecated API scanner in Node
+NodeAPIScanner is a Visual Studio Code extension that scans and lists all deprecated APIs accessible by your Node.js application.
 
-# fetchApi
 
-fetches all deprecated from 'https://nodejs.org/api/deprecations.json'
+## fetchApi.js 
+retrieves all deprecated functions from "https://nodejs.org/api/deprecations.json."
 
-# makeAst
 
-takes input file and makes Abstract Syntax Tree. 
-Changes all the variable declaration to its original values.
+## makeAst.js 
+creates an abstract syntax tree from an input file.
+Returns all variables to their original values.
 
-# checkDeprecation
 
-traverses the AST and checks for deprecation
+## checkDeprecation.js 
+searches the AST for deprecation.
 
-# main
 
-Responsiblity of main is to call is to call fetchApi->makeAst->checkDeprecation in order
+## main.js 
+The primary task is to make the call. In sequence, fetchApi->makeAst->checkDeprecation
 
-# extension.js
 
-collects all deprecatdAPI by calling main and highlights the the text.
-This process is done every second.
-highlights in three different colors depending on type of deprecation
-Red => End-of-Life deprecation
-Yellow => Runtime deprecation
-Green => Documentation only
+## extension.js 
+calls main to collect all deprecated APIs and highlights the content.
+This process occurs every second.
+Depending on the type of deprecation, highlights appear in three different colours.
+Red indicates End-of-Life deprecation.
+Yellow indicates runtime deprecation.
+Green indicates documentation-only deprecation.
+Show the alternative API on hover
+
+
+
+
 
 
 
