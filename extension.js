@@ -1,41 +1,55 @@
+/**
+ * This is a VS Code extension that checks for deprecated Node.js APIs in the active text editor and
+ * displays them as decorations.
+ * @returns The module.exports object with the activate and deactivate functions.
+ */
 let vscode = require('vscode');
 let main = require('./src/main.js');
 
-
-// This code uses the Turndown service to convert HTML to Markdown.
 let TurndownService = require('turndown');
 
 let turndownService = new TurndownService();
+/* `decorationTypes` is an object that contains three properties, each of which is a
+TextEditorDecorationType created using the `vscode.window.createTextEditorDecorationType()` method.
+These decoration types are used to highlight different types of deprecated Node.js APIs in the
+active text editor. */
 
 let decorationTypes = {
     'Runtime deprecation': vscode.window.createTextEditorDecorationType({
-        backgroundColor: 'rgba(255, 255, 0, 0.5)', // Yellow with 50% opacity
+        backgroundColor: 'rgba(255, 255, 0, 0.5)',
         color: 'black'
     }),
     'Documentation-only': vscode.window.createTextEditorDecorationType({
-        backgroundColor: 'rgba(0, 255, 0, 0.5)', // Green with 50% opacity
+        backgroundColor: 'rgba(0, 255, 0, 0.5)',
         color: 'black'
     }),
     default: vscode.window.createTextEditorDecorationType({
-        backgroundColor: 'rgba(255, 0, 0, 0.5)', // Red with 50% opacity
+        backgroundColor: 'rgba(255, 0, 0, 0.5)',
         color: 'black'
     })
 };
 
-
-//This function gets all the deprecated API usages in the active editor
+/**
+ * This function retrieves any deprecated API usages in the active text editor's file content.
+ * @returns The function `getDeprecatedApiUsages` returns a promise that resolves to an array of
+ * deprecated API usages.
+ */
 async function getDeprecatedApiUsages() {
-    //Get the path for the active document
     let fileContent = vscode.window.activeTextEditor.document.getText();
-    //Get all the deprecated API usages
     let deprecatedApiUsages = [];
     deprecatedApiUsages = await main.main(fileContent);
-    //Return the deprecated API usages
     return deprecatedApiUsages;
 }
 
+/**
+ * This function takes in a list of deprecated API usages and displays them as decorations in the
+ * active text editor.
+ * @param deprecatedApiUsages - `deprecatedApiUsages` is an array of objects representing the usage of
+ * deprecated APIs in the code. Each object contains information about the location of the usage (start
+ * and end positions), the description of the deprecated API (in HTML format), and the type of the API
+ * (e.g. "Runtime
+ */
 function displayDecoration(deprecatedApiUsages) {
-
     let decorationLists = {
         'Runtime deprecation': [],
         'Documentation-only': [],
@@ -62,16 +76,13 @@ function displayDecoration(deprecatedApiUsages) {
         decorationLists[apiType].push(decoration);
     });
 
-    // Loop through each API type
     for (let apiType in decorationLists) {
-        // Get the decoration type for the current API type
         let decorationType = decorationTypes[apiType] || decorationTypes.default;
-        // Set the decorations for the current API type
         vscode.window.activeTextEditor.setDecorations(decorationType, decorationLists[apiType]);
     }
 }
 
-function activate(context) {
+async function activate(context) {
     let disposable = vscode.commands.registerCommand('nodedeprecatedapi.checkDeprecation', async () => {
         let deprecatedApiUsages = [];
         deprecatedApiUsages = await getDeprecatedApiUsages();
@@ -80,8 +91,13 @@ function activate(context) {
 
     context.subscriptions.push(disposable);
 
+    // Call the functions directly to check deprecations on activation
+    let deprecatedApiUsages = [];
+    deprecatedApiUsages = await getDeprecatedApiUsages();
+    displayDecoration(deprecatedApiUsages);
+
     let intervalId = setInterval(async () => {
-        let deprecatedApiUsages = [];
+        deprecatedApiUsages = [];
         deprecatedApiUsages = await getDeprecatedApiUsages();
         displayDecoration(deprecatedApiUsages);
     }, 1000);
