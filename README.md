@@ -41,6 +41,14 @@ USING NODEAPISCANNER Making Use of NodeAPIScanner:
 (4) When a deprecated API is found, NodeAPIScanner will highlight text and, if available, the proposed alternative API.
 
 
-
+USING NODEAPISCANNER
+Making Use of NodeAPIScanner:
+(1) Download the extension nodeAPIScanner from the Visual
+Studio Code Marketplace and install it.
+(2) Open a Node.js project in Visual Studio Code.
+(3) Launch the command palette and begin the command checkDeprecatedAPI
+The plugin will analyse the code automatically and provide
+real-time feedback on deprecated API usage.
+(4) When a deprecated API is found, NodeAPIScanner will highlight text and, if available, the proposed alternative API.
 
 
