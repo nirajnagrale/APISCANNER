@@ -1,6 +1,5 @@
 # NodeAPIScanner
-The deprecated API scanner in Node
-NodeAPIScanner is a Visual Studio Code extension that scans and lists all deprecated APIs accessible by your Node.js application.
+NodeAPIScanner is a Visual Studio Code extension that scans and lists all deprecated APIs accessible by your Node.js application. It highlights all the deprecated API Usages in your project and provides alternative API
 
 
 ## fetchApi.js 
